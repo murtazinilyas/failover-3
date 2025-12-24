@@ -8,6 +8,30 @@
 
 ### Решение 1
 
+Команда rsync для создания зеркальной копии:
+
+```bash
+rsync -a . /tmp/backup
+```
+
+![Зеркальная копия](https://github.com/murtazinilyas/failover-3/blob/main/scshots/rsync_t1-1.png)
+
+Команда rsync для создания копии без скрытых папок:
+
+```bash
+rsync -a --exclude '.*' . /tmp/backup
+```
+
+![Копия без скрытых папок](https://github.com/murtazinilyas/failover-3/blob/main/scshots/rsync_t1-2.png)
+
+Команда rsync для создания копии без скрытых папок и подсчетом хэш-сумм всех файлов, а так же просмотра действий утилиты:
+
+```bash
+rsync -ac --exclude '.*' --progress . /tmp/backup
+```
+
+![Результат команды rsync c подсчетом хэш-сумм](https://github.com/murtazinilyas/failover-3/blob/main/scshots/rsync_t1-3.png)
+
 ---
 
 ### Задание 2
@@ -17,8 +41,15 @@
 - Резервная копия размещается локально, в директории `/tmp/backup`
 - На проверку направить файл crontab и скриншот с результатом работы утилиты.
 
-
 ### Решение 2
+
+Скрин скрипта:
+
+![Скрипт rsync с записью в системный журнал о результате его выполнения](https://github.com/murtazinilyas/failover-3/blob/main/scshots/rsync_t2-1.png)
+
+Результат работы скрипта и запись в crontab:
+
+![Результат и crontab](https://github.com/murtazinilyas/failover-3/blob/main/scshots/rsync_t2-2.png)
 
 ---
 
@@ -29,3 +60,16 @@
 
 ### Решение 3
 
+Команда rsync для синхронизации большого файла между серверами с ограничением пропускной способности до 1 Мбит/с:
+
+```bash
+rsync -a --progress --bwlimit=1000 file user@adress:/path/to/file/filename
+```
+
+Результат выполнения на сервере-источнике файла:
+
+![Источник](https://github.com/murtazinilyas/failover-3/blob/main/scshots/rsync_t3-1.png)
+
+Наличие файла на целевом сервере:
+
+![Целевой](https://github.com/murtazinilyas/failover-3/blob/main/scshots/rsync_t3-2.png)
